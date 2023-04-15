@@ -28,7 +28,9 @@
       "@constants/*": ["./src/constants/*"],
       "@apis/*": ["./src/apis/*"],
       "@store/*": ["./src/store/*"],
-      "@utils": ["./src/utils/index"]
+      "@utils": ["./src/utils/index"],
+      "@schema/*": ["./src/schema/*"],
+      "@prompt/*": ["./src/prompt/*"]
     }
   },
   "include": [

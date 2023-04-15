@@ -31,6 +31,7 @@ export async function connectWallet() {
       return { status: 400, message: error.message };
     }
   } else {
+    // MetaMask가 설치되어 있지 않은 경우
     return {
       status: 400,
       message:

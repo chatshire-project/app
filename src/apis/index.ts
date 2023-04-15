@@ -12,6 +12,7 @@ const customFetch = async (path: string, method: string, body: BodyInit) => {
       throw Error(data.statusText);
     }
     const result = await data.json();
+    console.log(result);
     if (!result) {
       throw Error('No data');
     }

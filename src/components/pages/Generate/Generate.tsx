@@ -40,9 +40,23 @@ export default function Generate() {
   async function getGPTGeneratedSQLQuery() {
     setShowResult(true);
     setResultLoading(true);
-    const responseData = await createSQLQuery(sqlQuery);
-    responseData && setQueryResult(responseData);
+    const requestBody = {
+      query: sqlQuery,
+    };
+
+    const response = await fetch('/api/flipside/call', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(requestBody),
+    });
+
+    const responseData = await response.json();
+
+    setQueryResult(responseData);
     setResultLoading(false);
+    console.log(`queryResult: ${queryResult?.response}`);
   }
 
   useEffect(() => {

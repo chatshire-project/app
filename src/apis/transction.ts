@@ -13,5 +13,6 @@ export const createSQLQuery = async (sqlQuery: any) => {
     query: sqlQuery,
   };
   const body = JSON.stringify(requestBody);
+  console.log(await customFetch('/api/flipside/call', 'POST', body));
   return await customFetch('/api/flipside/call', 'POST', body);
 };

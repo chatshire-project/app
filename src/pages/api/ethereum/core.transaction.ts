@@ -1,9 +1,13 @@
+// 1. gpt3.5 turbo
+// 2. flipside query
+
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { createEthereumCoreTransactionSchema } from '../prompt/ethereum/core.transaction';
-import { FlipsideSchema } from '../schemas/interface';
+import { createEthereumCoreTransactionSchema } from '@prompt/ethereum/core.transaction';
+import { FlipsideSchema } from '@schema/interface';
 import { ChatOpenAI } from 'langchain/chat_models';
 import { OPENAI_API_KEY } from '@constants/config';
 
+// TODO: refactor to have the dependency injection
 const chat = new ChatOpenAI({
   temperature: 0,
   maxConcurrency: 5,
@@ -23,6 +27,7 @@ const callGPT = async (schema: FlipsideSchema, rawUserMessage: string) => {
     }),
   ]);
 
+  // TODO: refactor this for much human readable way
   return response.generations.map((g) => g.map((m) => m.text).join(' '))[0];
 };
 

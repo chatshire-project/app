@@ -1,4 +1,4 @@
-import { FlipsideSchema } from '../../schemas/interface';
+import { FlipsideSchema } from '@schema/interface';
 
 export function createEthereumCoreTransactionSchema(): FlipsideSchema {
   const ChainName = 'ethereum';

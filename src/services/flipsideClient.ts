@@ -1,5 +1,6 @@
 import axios, { AxiosInstance } from 'axios';
-import { FLIPSIDE_API_KEY } from '@constants/config';
+import { request } from 'http';
+import { OPENAI_API_KEY, FLIPSIDE_API_KEY } from '@constants/config';
 
 const CreateQueryEndpoint = '/queries';
 
@@ -20,7 +21,7 @@ export class FlipsideClient {
 
   constructor(userAgent: string) {
     this.baseUrl = 'https://node-api.flipsidecrypto.com';
-    this.apiKey = FLIPSIDE_API_KEY!;
+    this.apiKey = FLIPSIDE_API_KEY;
     this.userAgent = userAgent;
     this.httpClient = axios.create({
       baseURL: this.baseUrl,
@@ -93,4 +94,22 @@ export class FlipsideClient {
       await new Promise((resolve) => setTimeout(resolve, 3000));
     }
   }
+
+  // async getFlipsideQueryResult(token: string): Promise<GetFlipsideQueryResultSuccessResponse> {
+  //   const endpoint = CreateQueryEndpoint + "/" + token;
+  //   const req = {
+  //     method: "GET",
+  //     url: this.baseUrl + endpoint,
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //       "x-api-key": this.apiKey,
+  //     },
+  //   };
+  //   const resp = await this.executeRequest(req);
+  //   const output = await this.getResponseObject(resp);
+  //   if (output.status == "running") {
+  //     throw new Error("query is still running");
+  //   }
+  //   return output;
+  // }
 }
