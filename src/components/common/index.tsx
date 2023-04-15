@@ -9,7 +9,7 @@ import Tag from './Tag/Tag';
 import Loading from './Loading/Loading';
 import Modal from './Modal/Modal';
 import Image from './Image/Image';
-import PromptBox from './PromptBox';
+import PromptBox from './PromptBox/PromptBox';
 
 export {
   Button,
