@@ -17,3 +17,15 @@ export const copyToClipboard = (dataToCopy: string) => {
       console.error('Failed to copy to clipboard: ', error);
     });
 };
+
+export const generateEtherscanLink = (value: string) => {
+  const isTransactionHash = /^0x([A-Fa-f0-9]{64})$/.test(value);
+  const isBlockNumber = /^(?:0[xX])?[A-Fa-f0-9]+$/.test(value);
+  if (isTransactionHash) {
+    return `https://etherscan.io/tx/${value}`;
+  } else if (isBlockNumber) {
+    return `https://etherscan.io/block/${parseInt(value, 16)}`;
+  } else {
+    return undefined;
+  }
+};

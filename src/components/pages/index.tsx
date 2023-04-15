@@ -1,3 +1,4 @@
-import Home from './Home';
+import Home from './Home/Home';
+import Generate from './Generate/Generate';
 
-export { Home };
+export { Home, Generate };
