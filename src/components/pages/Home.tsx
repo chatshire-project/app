@@ -1,0 +1,90 @@
+import { Card, PromptBox } from '@components/index';
+import getStyleRoot from './HomeStyle';
+import { copyToClipboard } from '@utils';
+import { useEffect, useState } from 'react';
+import * as promptExampleModule from '@mocks/promptExample.json';
+import { getLocalStorage } from '@utils';
+
+export default function Home() {
+  const styleRoot = getStyleRoot();
+  const promptExample: string[] = JSON.parse(
+    JSON.stringify(promptExampleModule)
+  ).data;
+
+  const [isLoading, setLoading] = useState(true);
+  const [history, setHistroy] = useState<any[] | null>(null);
+  const [copiedPrompt, setCopiedPrompt] = useState<string | null>(null);
+  const [copiedChain, setCopiedChain] = useState<string | null>(null);
+  const [copiedItem, setCopiedItem] = useState<string | null>(null);
+
+  const handleClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    if (!e) return;
+    const prompt = e.currentTarget.querySelector('p')?.innerText;
+    const chain = e.currentTarget.querySelector('span.firstTag')?.innerHTML;
+    const item = e.currentTarget.querySelector('span.secondTag')?.innerHTML;
+
+    if (chain && item) {
+      setCopiedChain(chain);
+      setCopiedItem(item);
+    }
+
+    if (prompt) {
+      setCopiedPrompt(prompt);
+      copyToClipboard(prompt);
+    }
+  };
+
+  useEffect(() => {
+    setLoading(false);
+    const historyStr: any = getLocalStorage('history');
+    const history = JSON.parse(historyStr);
+    setHistroy(history?.slice(history.length - 3, history.length).reverse());
+  }, []);
+
+  return isLoading ? (
+    <></>
+  ) : (
+    <>
+      <div className={styleRoot}>
+        <PromptBox
+          copiedPrompt={copiedPrompt}
+          copiedChain={copiedChain}
+          copiedItem={copiedItem}
+        ></PromptBox>
+
+        <section>
+          <h3 className="section-title">Prompt Example</h3>
+          <div className="card-container">
+            {promptExample.map((v, i) => {
+              return (
+                <Card key={i} icon="copy" _onClick={handleClick}>
+                  {v}
+                </Card>
+              );
+            })}
+          </div>
+        </section>
+        {history ? (
+          <section>
+            <h3 className="section-title">History</h3>
+            <div className="card-container">
+              {history?.map((v: any, i: number) => (
+                <Card
+                  key={i}
+                  firstTag={v.chain}
+                  secondTag={v.item}
+                  icon="copy"
+                  _onClick={handleClick}
+                >
+                  {v.prompt}
+                </Card>
+              ))}
+            </div>
+          </section>
+        ) : (
+          <></>
+        )}
+      </div>
+    </>
+  );
+}

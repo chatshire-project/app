@@ -2,7 +2,7 @@ import { forwardRef, useEffect, useState } from 'react';
 import { getStyleRoot } from './ImageStyle';
 import * as image from '@assets/images/index';
 
-export interface IconType {
+export interface ImageType {
   name: keyof typeof image;
   _onClick?: React.MouseEventHandler<any>;
   fill?: string;
@@ -12,7 +12,7 @@ export interface IconType {
   style?: React.CSSProperties;
 }
 
-const Icon = forwardRef((props: IconType) => {
+const Icon = forwardRef((props: ImageType) => {
   const { name, _onClick, size, width, height } = props;
 
   const isOnClick = _onClick ? true : false;

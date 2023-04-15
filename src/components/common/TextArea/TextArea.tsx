@@ -1,6 +1,6 @@
 import { useState, forwardRef, useEffect } from 'react';
 import { styleRoot } from './TextAreaStyle';
-import ButtonType from '../Button/Button';
+import { Button } from '@common';
 
 interface TextAreaProps {
   btn?: string;

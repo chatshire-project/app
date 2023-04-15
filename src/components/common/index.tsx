@@ -1,4 +1,4 @@
-import ButtonType from './Button/Button';
+import Button from './Button/Button';
 import Icon from './Icon/Icon';
 import Gnb from './Gnb/Gnb';
 import SelectBox from './SelectBox/SelectBox';
@@ -9,9 +9,10 @@ import Tag from './Tag/Tag';
 import Loading from './Loading/Loading';
 import Modal from './Modal/Modal';
 import Image from './Image/Image';
+import PromptBox from './PromptBox';
 
 export {
-  ButtonType as Button,
+  Button,
   Icon,
   Gnb,
   SelectBox,
@@ -22,4 +23,5 @@ export {
   Loading,
   Modal,
   Image,
+  PromptBox,
 };

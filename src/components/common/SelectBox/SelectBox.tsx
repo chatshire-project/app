@@ -1,13 +1,14 @@
 import { useState, forwardRef } from 'react';
 import { styleRoot } from './SelectBoxStyle';
-import { Icon } from '@components/index';
-import { IconType } from '@types';
+import { Icon, Image } from '@components/index';
+import { IconType } from '@components/Icon/Icon';
+import { ImageType } from '@components/Image/Image';
 
 interface SelectBox {
   options: string[];
   defaultOption?: string;
-  defaultIcon?: IconType;
-  defaultImg?: IconType;
+  defaultIcon?: IconType['name'];
+  defaultImg?: ImageType['name'];
   index: number;
   selectedData: string | null;
   _onChange: (option: string) => void;
@@ -49,12 +50,12 @@ const SelectBox = forwardRef((props: SelectBox, ref: any) => {
         {selectedData ?? (
           <div className="select-btn-value">
             {defaultIcon && <Icon name={defaultIcon}></Icon>}
-            {defaultImg && <Icon name={defaultImg} isImg size={16}></Icon>}
+            {defaultImg && <Image name="defaultEmptyImg" size={16}></Image>}
             {defaultOption}
           </div>
         )}
         <Icon
-          name={isOpen ? 'chevron_up' : 'chevron_down'}
+          name={isOpen ? 'chevronUp' : 'chevronDown'}
           size={24}
           fill="var(--gray-700)"
         ></Icon>

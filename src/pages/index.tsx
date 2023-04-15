@@ -1,7 +1,7 @@
 import Head from 'next/head';
 import { Default } from '@layouts';
 import AmplitudeHomePage from '@services/amplitude';
-import { Icon } from '@common';
+import { Home } from '@pages';
 
 export default function HomePage() {
   AmplitudeHomePage();
@@ -19,7 +19,7 @@ export default function HomePage() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Default>
-        <></>
+        <Home></Home>
       </Default>
     </>
   );
