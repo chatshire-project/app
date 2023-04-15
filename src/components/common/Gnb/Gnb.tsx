@@ -2,7 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { Button, Icon, Image } from '@common';
 import { styleRoot } from './GnbStyle';
 import { useRouter } from 'next/router';
-import { IconType } from '@components/Icon/Icon';
+import {
+  connectWallet,
+  checkIsLogin,
+  getAccount,
+} from '@services/connectWallet';
 
 interface Gnb {}
 
@@ -12,7 +16,13 @@ const Gnb = React.forwardRef((props: Gnb) => {
   const slice = (str: String) => str.slice(0, 5) + '...' + str.slice(-5);
   const hasBackBtn = router.pathname === '/' ? false : true;
 
-  async function handleClick() {}
+  async function handleClick() {
+    const response = await connectWallet();
+    if (response.status === 400) {
+      return alert(response.message);
+    }
+    setAccount(response);
+  }
 
   function clickLogo() {
     router.push('/');
@@ -22,7 +32,10 @@ const Gnb = React.forwardRef((props: Gnb) => {
     router.back();
   }
 
-  useEffect(() => {});
+  useEffect(() => {
+    const isLogin = checkIsLogin();
+    if (isLogin) setAccount(getAccount());
+  });
 
   return (
     <div className={styleRoot}>
