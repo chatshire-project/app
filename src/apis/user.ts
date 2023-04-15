@@ -18,3 +18,14 @@ export const startNewBatch = async (walletAddress: string, sql: string) => {
   console.log({ walletAddress, sql });
   return await customFetch('/api/user/newbatch', 'POST', body);
 };
+
+export const getAllBatchList = async () => {
+  const requestBody = {};
+  const body = JSON.stringify(requestBody);
+  return await customFetch(`/api/user/getbatch`, 'GET', body);
+};
+
+export const runBatchList = async () => {
+  const users = await getAllBatchList();
+  users.forEach(() => {});
+};

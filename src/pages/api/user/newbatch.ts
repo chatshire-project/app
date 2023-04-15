@@ -12,10 +12,7 @@ async function addBatch(walletAddress: string, batch: BatchType) {
 
   // Find the user and get the current batchList
   const user = await usersCollection.findOne({ walletAddress });
-  console.log({ user });
   const currentBatchList = user?.batchList || [];
-
-  // Add the new batch to the batchList
   const newBatchList = [...currentBatchList, batch];
 
   // Update the user's batchList
