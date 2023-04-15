@@ -3,17 +3,19 @@ import mongoose from 'mongoose';
 export interface BatchJobType {
   name: string;
   query: string;
+  enabled: boolean;
 }
 
 export interface UserType {
   name: string;
   email: string;
-  batchJobs: BatchJobType;
+  batchJobs: BatchJobType[];
 }
 
 const batchJobSchema = new mongoose.Schema({
   name: { type: String, required: true },
   query: { type: String, required: true },
+  enabled: { type: Boolean, required: true },
 });
 
 const userSchema = new mongoose.Schema({

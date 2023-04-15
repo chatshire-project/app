@@ -12,13 +12,9 @@ export default async function handler(
 ) {
   if (req.method === 'POST') {
     const query = req.body.query;
-    console.log({ query });
     const flipsideClient = new FlipsideClient('chatshire');
-    console.log({ flipsideClient });
     const flipsideResponse = await flipsideClient.createFlipsideQuery(query);
-    console.log({ flipsideResponse });
     const flipsideQueryToken = flipsideResponse.token;
-    console.log({ flipsideQueryToken });
     const flipsideQueryResult = await flipsideClient.getFlipsideQueryResult(
       flipsideQueryToken
     );

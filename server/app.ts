@@ -1,9 +1,9 @@
 import express, { Response } from 'express';
 import cors from 'cors';
 import bodyParser from 'body-parser';
-import mongoose from 'mongoose';
+import mongoose, { Error } from 'mongoose';
 import dotenv from 'dotenv';
-import { UserModel } from './schemas/index';
+import { BatchJobType, UserModel, UserType } from './schemas/index';
 
 import axios from 'axios';
 
@@ -24,28 +24,25 @@ app.use(
 );
 app.use(bodyParser.json());
 
-app.post(
-  '/users/:userId/batch-jobs/:batchJobIndex/enable',
-  async (req, res) => {
-    const { userId, batchJobIndex } = req.params;
-    const { enabled } = req.body;
-    try {
-      const user = await UserModel.findById(userId);
-      user.batchJobs[batchJobIndex].enabled = enabled;
-      await user.save();
-      res.send(user);
-    } catch (error) {
-      console.error(error);
-      res.status(500).send('Server Error');
-    }
+app.post('/users/:userId/batch-jobs', async (req, res) => {
+  const { userId } = req.params;
+  const { batchJobIndex } = req.body;
+  try {
+    const user = await UserModel.findById(userId);
+    user.batchJobs.push(batchJobIndex);
+    await user.save();
+    res.send(user);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Server Error');
   }
-);
+});
 
 async function executeBatchJobs() {
   const users = await UserModel.find({});
-  users.forEach(async (user) => {
+  users.forEach(async (user: UserType) => {
     const enabledBatchJobs = user.batchJobs.filter(
-      (batchJob) => batchJob.enabled
+      (batchJob: BatchJobType) => batchJob.enabled
     );
     enabledBatchJobs.forEach(async (batchJob) => {
       try {
@@ -56,7 +53,7 @@ async function executeBatchJobs() {
           `Batch job result for user ${user.name}, job name ${batchJob.name}:`,
           result.data
         );
-      } catch (error) {
+      } catch (error: any) {
         console.error(
           `Error executing batch job for user ${user.name}, job name ${batchJob.name}:`,
           error.message

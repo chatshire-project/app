@@ -201,7 +201,7 @@ export default function Generate() {
                         !isBatchRunDone ? (
                           <Modal
                             title="Batch Job Execution Confirmation"
-                            content="You are about to execute a batch job that runs a query once per day.
+                            content="You are about to execute a batch job that runs a query at 00:00 in your local time, once per day.
                           Are you sure to proceed with executing the batch job?"
                             button={
                               !isLoadingBatchRun ? 'Run Batch' : 'Processing...'

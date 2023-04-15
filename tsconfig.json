@@ -40,5 +40,6 @@
     "src/assets/images/index.js",
     "src/services/push.js"
   ],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules"],
+  "types": ["mongodb"]
 }
