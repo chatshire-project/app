@@ -47,6 +47,10 @@ export const styleRoot = css`
     }
   }
 
+  &.full-width {
+    width: 100%;
+  }
+
   &.small {
     padding: 4px;
     background: none;
@@ -71,5 +75,9 @@ export const styleRoot = css`
   &.no-animation:hover {
     transition: none;
     transform: none;
+  }
+
+  &.full-width {
+    width: 100%;
   }
 `;

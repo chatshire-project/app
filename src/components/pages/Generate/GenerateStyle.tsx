@@ -75,5 +75,11 @@ export default function getStyleRoot() {
     .result {
       position: relative;
     }
+
+    .noti-button-container {
+      display: flex;
+      justify-content: center;
+      margin-top: 24px;
+    }
   `;
 }

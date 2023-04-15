@@ -8,6 +8,7 @@ import {
   getLocalStorage,
 } from '@utils';
 import { sendCoreTransaction, createSQLQuery } from '@apis/transction';
+import { sendNotification } from '@services/push';
 
 type FlipsideResponse = {
   response: any;
@@ -77,6 +78,10 @@ export default function Generate() {
     }
   }, []);
 
+  const handleNotification = async () => {
+    await sendNotification(String(queryTitle), queryResult?.response);
+  };
+
   const [resultBtnText, setResultBtnText] = useState('copy');
 
   return (
@@ -133,19 +138,31 @@ export default function Generate() {
               <section className="result">
                 <h3 className="section-title">Result</h3>
                 {queryResult && queryResult.response.length !== 0 ? (
-                  <TextInput
-                    btn={resultBtnText}
-                    _onClick={() => {
-                      if (queryResult) copyToClipboard(queryResult.response);
-                      setResultBtnText('copied!');
-                      setTimeout(() => {
-                        setResultBtnText('copy');
-                      }, 1000);
-                    }}
-                    placeholder="Transaction hash"
-                    defaultValue={queryResult?.response}
-                    isReadOnly
-                  ></TextInput>
+                  <>
+                    <TextInput
+                      btn={resultBtnText}
+                      _onClick={() => {
+                        if (queryResult) copyToClipboard(queryResult.response);
+                        setResultBtnText('copied!');
+                        setTimeout(() => {
+                          setResultBtnText('copy');
+                        }, 1000);
+                      }}
+                      placeholder="Transaction hash"
+                      defaultValue={queryResult?.response}
+                      isReadOnly
+                    ></TextInput>
+                    <div className="noti-button-container">
+                      <Button
+                        style={{ width: '100%' }}
+                        size="large"
+                        _onClick={handleNotification}
+                        isFullWidth
+                      >
+                        Set Notification
+                      </Button>
+                    </div>
+                  </>
                 ) : (
                   <div className="no-result">
                     <p>Opps! No results found 🫥</p>

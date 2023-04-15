@@ -12,11 +12,21 @@ interface ButtonType {
   icon?: IconType['name'];
   color?: string;
   noAmimation?: boolean;
+  isFullWidth?: boolean;
 }
 
 const Button = React.forwardRef((props: ButtonType, ref: any) => {
-  const { children, _onClick, size, loading, icon, style, color, noAmimation } =
-    props;
+  const {
+    children,
+    _onClick,
+    size,
+    loading,
+    icon,
+    style,
+    color,
+    noAmimation,
+    isFullWidth,
+  } = props;
 
   const colorStyle = color ? { color: color } : {};
 
@@ -25,9 +35,9 @@ const Button = React.forwardRef((props: ButtonType, ref: any) => {
       ref={ref}
       className={
         styleRoot +
-        ` ${style ?? ''} ${size} ${loading ? 'loading' : ''} ${
-          icon ? 'icon' : ''
-        } ${noAmimation ? 'no-animation' : ''}`
+        ` ${size} ${loading ? 'loading' : ''} ${icon ? 'icon' : ''} ${
+          noAmimation ? 'no-animation' : ''
+        } ${isFullWidth ? 'full-width' : ''}`
       }
       style={colorStyle}
       onClick={_onClick}
