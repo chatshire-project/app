@@ -1,4 +1,5 @@
 import { MongoClient } from 'mongodb';
+import { MONGODB_URI } from '@constants/config';
 
 declare module 'mongodb' {
   interface MongoClientOptions {
@@ -7,16 +8,14 @@ declare module 'mongodb' {
   }
 }
 
-const uri = process.env.MONGODB_URI as string;
+const uri = MONGODB_URI as string;
 const client: MongoClient = new MongoClient(uri, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
 
 async function connectToDatabase() {
-  if (!(client as any).topology.isConnected()) {
-    await client.connect();
-  }
+  await client.connect();
   return client.db();
 }
 

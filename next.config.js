@@ -5,6 +5,7 @@ const nextConfig = {
     FLIPSIDE_API_KEY: process.env.FLIPSIDE_API_KEY,
     OPENAI_API_KEY: process.env.OPENAI_API_KEY,
     AMPLITUDE_KEY: process.env.AMPLITUDE_KEY,
+    MONGODB_URI: process.env.MONGODB_URI,
   },
 };
 

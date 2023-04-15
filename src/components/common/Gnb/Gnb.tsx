@@ -7,6 +7,7 @@ import {
   checkIsLogin,
   getAccount,
 } from '@services/connectWallet';
+import { registerUser } from '@apis/user';
 
 interface Gnb {}
 
@@ -22,6 +23,7 @@ const Gnb = React.forwardRef((props: Gnb) => {
       return alert(response.message);
     }
     setAccount(response);
+    registerUser(response);
   }
 
   function clickLogo() {
