@@ -1,7 +1,15 @@
 import getStyleRoot, { promptStyle } from './GenerateStyle';
-import { Tag, Button, TextArea, PromptBox, TextInput, Loading } from '@common';
+import {
+  Tag,
+  Button,
+  TextArea,
+  PromptBox,
+  TextInput,
+  Loading,
+  Modal,
+} from '@common';
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import {
   copyToClipboard,
   generateEtherscanLink,
@@ -9,6 +17,7 @@ import {
 } from '@utils';
 import { sendCoreTransaction, createSQLQuery } from '@apis/transction';
 import { sendNotification } from '@services/push';
+import { getAccount } from '@services/connectWallet';
 
 type FlipsideResponse = {
   response: any;
@@ -78,11 +87,39 @@ export default function Generate() {
     }
   }, []);
 
-  const handleNotification = async () => {
-    await sendNotification(String(queryTitle), queryResult?.response);
+  const handleBatchBtn = () => {
+    if (!getAccount()) {
+      return setAskingLoginModalOpen(true);
+    }
+    SetBatchConfirmModalOpen(true);
   };
 
   const [resultBtnText, setResultBtnText] = useState('copy');
+  const [isBatchConfirmModalOpen, SetBatchConfirmModalOpen] = useState(false);
+  const [isBatchRunDone, setBatchRunDone] = useState(false);
+  const [isAskingLoginModalOpen, setAskingLoginModalOpen] = useState(false);
+  const [isLoadingBatchRun, setLoadingBatchRun] = useState(false);
+
+  const handleNotification = async () => {
+    setLoadingBatchRun(true);
+    await sendNotification(String(queryTitle), String(queryResult?.response));
+    setBatchRunDone(true);
+    setLoadingBatchRun(false);
+  };
+
+  useEffect(() => {
+    const ModalElement = document.querySelector('.backdrop');
+    ModalElement?.addEventListener('click', () => {
+      SetBatchConfirmModalOpen(false);
+    });
+  }, [isBatchConfirmModalOpen]);
+
+  useEffect(() => {
+    const ModalElement = document.querySelector('.backdrop');
+    ModalElement?.addEventListener('click', () => {
+      setAskingLoginModalOpen(false);
+    });
+  }, [isAskingLoginModalOpen]);
 
   return (
     <div className={styleRoot}>
@@ -93,18 +130,6 @@ export default function Generate() {
             <Tag>Transaction</Tag>
           </div>
           <h2 className="title">{queryTitle}</h2>
-        </div>
-        <PromptBox isHidden={isPromptBoxHidden} style={promptStyle}></PromptBox>
-        <div className="button-container">
-          {isPromptBoxHidden ? (
-            <Button icon="chevronDown" _onClick={handlePromptBox} size="small">
-              Show Edit
-            </Button>
-          ) : (
-            <Button icon="chevronUp" _onClick={handlePromptBox} size="small">
-              Hide Edit
-            </Button>
-          )}
         </div>
       </section>
 
@@ -154,13 +179,52 @@ export default function Generate() {
                     ></TextInput>
                     <div className="noti-button-container">
                       <Button
-                        style={{ width: '100%' }}
                         size="large"
-                        _onClick={handleNotification}
+                        _onClick={handleBatchBtn}
                         isFullWidth
                       >
-                        Set Notification
+                        Run Daily Batch
                       </Button>
+                      {isAskingLoginModalOpen ? (
+                        <>
+                          <Modal
+                            title="Need to Login"
+                            content="Please connect wallet to run the batch."
+                            button="Okay"
+                            _onClick={() => setAskingLoginModalOpen(false)}
+                          ></Modal>
+                        </>
+                      ) : (
+                        <></>
+                      )}
+                      {isBatchConfirmModalOpen ? (
+                        !isBatchRunDone ? (
+                          <Modal
+                            title="Batch Job Execution Confirmation"
+                            content="You are about to execute a batch job that runs a query once per day.
+                          Are you sure to proceed with executing the batch job?"
+                            button={
+                              !isLoadingBatchRun ? 'Run Batch' : 'Processing...'
+                            }
+                            _onClick={handleNotification}
+                          ></Modal>
+                        ) : (
+                          <Modal
+                            title="Batch Job Executed"
+                            content="Please download Push DApp to check your batche reulst."
+                            button="Download Push"
+                            secondButton="Okay"
+                            _onClick={() =>
+                              router.push('https://app.push.org/receive')
+                            }
+                            _onClickSecond={() =>
+                              SetBatchConfirmModalOpen(false)
+                            }
+                          ></Modal>
+                        )
+                      ) : (
+                        <></>
+                      )}
                     </div>
                   </>
                 ) : (

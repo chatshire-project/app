@@ -5,9 +5,9 @@ import { IconType } from '@components/Icon/Icon';
 
 interface ButtonType {
   children: React.ReactNode;
-  style?: React.CSSProperties;
   _onClick?: React.MouseEventHandler<any>;
   size?: 'large' | 'small';
+  style?: 'primary' | 'secondary';
   loading?: boolean;
   icon?: IconType['name'];
   color?: string;
@@ -37,7 +37,7 @@ const Button = React.forwardRef((props: ButtonType, ref: any) => {
         styleRoot +
         ` ${size} ${loading ? 'loading' : ''} ${icon ? 'icon' : ''} ${
           noAmimation ? 'no-animation' : ''
-        } ${isFullWidth ? 'full-width' : ''}`
+        } ${isFullWidth ? 'full-width' : ''} ${style ?? 'primary'}`
       }
       style={colorStyle}
       onClick={_onClick}

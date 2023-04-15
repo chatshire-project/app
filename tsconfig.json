@@ -37,7 +37,8 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    "src/assets/images/index.js"
+    "src/assets/images/index.js",
+    "src/services/push.js"
   ],
   "exclude": ["node_modules"]
 }

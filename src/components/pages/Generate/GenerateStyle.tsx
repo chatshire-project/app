@@ -32,7 +32,6 @@ export default function getStyleRoot() {
 
     .button-container {
       padding-bottom: 4px;
-      display: none;
     }
 
     section.footer {

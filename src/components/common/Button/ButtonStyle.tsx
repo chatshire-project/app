@@ -68,6 +68,15 @@ export const styleRoot = css`
     }
   }
 
+  &.secondary {
+    background: var(--gray-700);
+
+    &:hover {
+      text-shadow: none;
+      box-shadow: none;
+    }
+  }
+
   &.loading {
     background: linear-gradient(0deg, var(--gray-700), var(--gray-700)), #624cd2;
   }
