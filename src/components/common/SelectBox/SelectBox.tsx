@@ -50,7 +50,7 @@ const SelectBox = forwardRef((props: SelectBox, ref: any) => {
         {selectedData ?? (
           <div className="select-btn-value">
             {defaultIcon && <Icon name={defaultIcon}></Icon>}
-            {defaultImg && <Image name="defaultEmptyImg" size={16}></Image>}
+            {defaultImg && <Image name={defaultImg} size={16}></Image>}
             {defaultOption}
           </div>
         )}
