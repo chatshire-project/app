@@ -1,12 +1,14 @@
 import { connectToDatabase } from '@services/mongoClient';
 import nextConnect from 'next-connect';
 import { NextApiRequest, NextApiResponse } from 'next';
+import { BatchType } from './newbatch';
 
-interface User {
+interface UserType {
   walletAddress: string;
+  batchList: BatchType[];
 }
 
-async function addUser(user: User) {
+async function addUser(user: UserType) {
   const db = await connectToDatabase();
   const usersCollection = db.collection('users');
 
@@ -27,7 +29,11 @@ const handler = nextConnect<NextApiRequest, NextApiResponse>();
 
 handler.post(async (req, res) => {
   const { walletAddress } = req.body;
-  const result = await addUser({ walletAddress });
+  const user = {
+    walletAddress,
+    batchList: [],
+  };
+  const result = await addUser(user);
   res.status(201).json(result);
 });
 

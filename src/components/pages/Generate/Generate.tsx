@@ -18,6 +18,7 @@ import {
 import { sendCoreTransaction, createSQLQuery } from '@apis/transction';
 import { sendNotification } from '@services/push';
 import { getAccount } from '@services/connectWallet';
+import { startNewBatch } from '@apis/user';
 
 type FlipsideResponse = {
   response: any;
@@ -105,6 +106,8 @@ export default function Generate() {
     await sendNotification(String(queryTitle), String(queryResult?.response));
     setBatchRunDone(true);
     setLoadingBatchRun(false);
+    const walletAddress = getAccount();
+    startNewBatch(walletAddress, sqlQuery);
   };
 
   useEffect(() => {
